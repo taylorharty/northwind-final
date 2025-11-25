@@ -19,22 +19,28 @@ public class ProductController : Controller
     _dataContext.RemoveDiscount(selectedDiscount);
     return RedirectToAction("Discounts", "Product");
   }
-  public async Task<IActionResult> AddDiscount() => View();
+  public async Task<IActionResult> AddDiscount()
+  {
+    ViewBag.Products = _dataContext.Products;
+    return View();
+  }
   [HttpPost]
   public async Task<IActionResult> AddDiscount(Discount discount)
   {
+    Random random = new Random();
+    int fourDigitNumber = random.Next(1000, 10000);
     Discount NewDiscount = new Discount
     {
       Title = discount.Title,
       Description = discount.Description,
-      DiscountPercent = discount.DiscountPercent,
-      ProductId = 1,
+      DiscountPercent = discount.DiscountPercent / 100,
+      ProductId = Convert.ToInt32(discount.ProductId),
       StartTime = discount.StartTime,
       EndTime = discount.EndTime,
-      Code = 1123,
+      Code = fourDigitNumber,
     };
     _dataContext.AddDiscount(NewDiscount);
-    return View();
+    return RedirectToAction("Discounts", "Product");
   }
 }
 

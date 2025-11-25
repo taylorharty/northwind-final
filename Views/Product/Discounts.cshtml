@@ -6,7 +6,7 @@
     @foreach (Discount d in Model)
     {
         decimal percentage = d.DiscountPercent * 100;
-        decimal discountPrice = d.Product.UnitPrice * d.DiscountPercent;
+        decimal discountPrice = d.Product.UnitPrice - (d.Product.UnitPrice * d.DiscountPercent);
         <li class="list-group-item">@d.Title - @d.Product.ProductName - <i style="opacity:.6;">%@Math.Round(percentage, 2);
                 OFF
             </i> - <b>$@Math.Round(discountPrice, 2)</b> - Ending @d.EndTime.ToString("MM/dd/yyyy")
